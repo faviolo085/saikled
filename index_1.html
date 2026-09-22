@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaiKled — Drop 002</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cobalto:#0047AB;
+    --carbon:#0A0A0A;
+    --concreto:#B6B4AC;
+    --concreto-alt:#C7C5BD;
+    --hielo:#A9C6E8;
+    --line:rgba(10,10,10,0.15);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:var(--concreto);
+    color:var(--carbon);
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:17px;
+    line-height:1.5;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px;}
+  h1,h2,.logo,.brand-line{font-family:'Archivo Black',sans-serif;text-transform:uppercase;}
+
+  /* ---------- HEADER ---------- */
+  header{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 0;border-bottom:1px solid var(--line);
+  }
+  .logo{font-size:18px;letter-spacing:0.5px;}
+  .header-right{font-size:14px;letter-spacing:0.5px;color:var(--carbon);opacity:0.65;}
+
+  /* ---------- HERO (bloque azul solido, patron "frase de marca") ---------- */
+  .hero{
+    background:var(--cobalto);color:var(--concreto);
+    margin:32px 0;padding:56px 40px;
+  }
+  .tag{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:14px;letter-spacing:0.5px;
+    color:var(--hielo);border:1px solid var(--hielo);
+    padding:5px 14px;margin-bottom:22px;
+  }
+  .tag .dot{width:6px;height:6px;border-radius:50%;background:var(--hielo);animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  h1{
+    font-size:clamp(34px,6.5vw,58px);
+    line-height:1.02;
+    margin-bottom:14px;
+    color:var(--concreto);
+  }
+  .hero-tagline{font-size:18px;color:var(--hielo);margin-bottom:18px;letter-spacing:0.3px;}
+  .hero p{color:var(--concreto);opacity:0.85;font-size:16px;max-width:480px;}
+  .hero-meta{
+    display:flex;gap:32px;margin-top:30px;font-size:14px;color:var(--hielo);
+  }
+  .hero-meta b{color:var(--concreto);display:block;font-size:19px;font-family:'Barlow Condensed';font-weight:600;}
+  .hero-buy{
+    display:inline-flex;align-items:center;gap:8px;
+    margin-top:32px;padding:14px 26px;
+    background:var(--concreto);color:var(--carbon);
+    font-family:'Barlow Condensed';font-weight:600;font-size:16px;letter-spacing:0.3px;
+    text-decoration:none;transition:opacity .15s;
+  }
+  .hero-buy:hover{opacity:0.85;}
+
+  /* ---------- GALLERY ---------- */
+  .gallery{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:2px;margin:0 0 2px;
+  }
+  .img-slot{
+    aspect-ratio:4/5;background:var(--concreto-alt);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .img-slot img{width:100%;height:100%;object-fit:cover;display:block;}
+  .img-slot .placeholder{
+    font-size:14px;color:var(--carbon);opacity:0.55;
+    text-align:center;padding:12px;border:1px dashed var(--line);
+  }
+  .img-slot .tag-label{
+    position:absolute;top:12px;left:12px;
+    font-size:12px;letter-spacing:0.3px;
+    background:var(--concreto);border:1px solid var(--line);
+    padding:3px 9px;color:var(--carbon);
+  }
+  @media(max-width:600px){ .gallery{grid-template-columns:1fr;} }
+
+  /* ---------- BUY PANEL ---------- */
+  .buy-panel{background:var(--concreto-alt);padding:32px;margin-bottom:32px;}
+  .sku-line{font-size:14px;color:var(--carbon);opacity:0.6;margin-bottom:6px;letter-spacing:0.3px;}
+  .buy-info h2{font-size:24px;margin-bottom:10px;}
+  .price{font-family:'Archivo Black';color:var(--cobalto);font-size:26px;margin-bottom:18px;}
+  .stock-bar{height:3px;background:var(--line);margin-bottom:8px;overflow:hidden;}
+  .stock-bar div{height:100%;background:var(--cobalto);}
+  .stock-label{font-size:14px;color:var(--carbon);opacity:0.6;margin-bottom:22px;}
+  .size-select{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+  .size-opt{
+    font-family:'Barlow Condensed';font-weight:500;font-size:15px;
+    border:1px solid var(--carbon);padding:8px 18px;cursor:pointer;
+    background:transparent;color:var(--carbon);
+  }
+  .size-opt.active{border-color:var(--cobalto);background:var(--cobalto);color:var(--concreto);}
+  .size-opt.sold{color:var(--carbon);opacity:0.35;text-decoration:line-through;cursor:not-allowed;}
+  .buy{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;padding:14px;background:var(--cobalto);color:var(--concreto);
+    font-family:'Barlow Condensed';font-weight:600;font-size:16px;letter-spacing:0.3px;
+    text-decoration:none;border:none;cursor:pointer;
+    transition:opacity .15s;
+  }
+  .buy:hover{opacity:0.85;}
+  .buy.sold{background:transparent;color:var(--carbon);opacity:0.4;border:1px solid var(--carbon);cursor:not-allowed;pointer-events:none;}
+  .fine-print{font-size:14px;color:var(--carbon);opacity:0.6;margin-top:14px;}
+
+  /* ---------- FOOTER (fondo alterno negro carbon) ---------- */
+  footer{
+    background:var(--carbon);color:var(--concreto);
+    padding:28px 24px;margin-top:0;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;
+    font-size:14px;letter-spacing:0.3px;
+  }
+  footer a{color:var(--hielo);text-decoration:none;}
+
+  @media(max-width:600px){
+    .hero{padding:40px 24px;}
+    .hero-meta{gap:20px;flex-wrap:wrap;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="logo">SaiKled</div>
+    <div class="header-right">DROP 04</div>
+  </header>
+</div>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="tag"><span class="dot"></span>VENTA ACTIVA — 24 UNIDADES</div>
+    <h1>Pantalón<br>baggy gris</h1>
+    <p class="hero-tagline">Suena con calma. Crece con fuerza.</p>
+    <p>Edición única de 24 piezas. Cuando se acaba, se acaba — no hay reposición hasta el próximo drop.</p>
+    <div class="hero-meta">
+      <div><b>24</b>piezas totales</div>
+      <div><b>1</b>referencia única</div>
+      <div><b>WhatsApp</b>único canal de pago</div>
+    </div>
+    <a class="hero-buy" id="hero-buy-btn" target="_blank">Consulta disponibilidad</a>
+  </section>
+
+  <div class="gallery" id="gallery"></div>
+
+  <div class="buy-panel">
+    <div class="buy-info">
+      <div class="sku-line" id="sku-line"></div>
+      <h2>Pantalón baggy gris</h2>
+      <div class="price" id="price-display"></div>
+      <div class="stock-bar"><div id="stock-fill"></div></div>
+      <div class="stock-label" id="stock-label"></div>
+
+      <div class="size-select" id="size-select"></div>
+
+      <a class="buy" id="buy-btn" target="_blank">Comprar por WhatsApp</a>
+      <p class="fine-print">Pago por transferencia o depósito. Te confirmamos disponibilidad y coordinamos entrega por WhatsApp.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>© SaiKled — Riobamba, Ecuador</div>
+  <div><a href="https://instagram.com/saikled21" target="_blank">Instagram</a> · <a href="#" id="footer-wa">WhatsApp</a></div>
+</footer>
+
+<script>
+/* =======================================================
+   EDITA SOLO ESTA PARTE PARA CADA DROP NUEVO
+   ======================================================= */
+
+const WHATSAPP_NUMBER = "593999999999"; // tu número con código de país, sin + ni espacios
+
+const PRODUCT = {
+  sku: "DROP-04",
+  name: "Pantalón baggy gris",
+  price: 30,
+  stockTotal: 24,
+  // pon aquí cuántas piezas tienes por talla — deben sumar 24
+  sizes: [
+    { label: "S",  stock: 6 },
+    { label: "M",  stock: 8 },
+    { label: "L",  stock: 7 },
+    { label: "XL", stock: 3 }
+  ],
+  // pon aquí las rutas a tus 3 fotos: modelo puesto, detalle de tela, detalle de bolsillo/costura
+  images: [
+    { src: "img/cuerpo.jpeg", label: "modelo" },
+    { src: "img/larga.jpeg", label: "detalle tela" },
+    { src: "img/modelo.jpeg", label: "detalle costura" }
+  ]
+};
+
+/* ======================================================= */
+
+const gallery = document.getElementById("gallery");
+PRODUCT.images.forEach(img => {
+  const slot = document.createElement("div");
+  slot.className = "img-slot";
+  slot.innerHTML = `
+    <span class="tag-label">${img.label}</span>
+    ${img.src
+      ? `<img src="${img.src}" alt="${PRODUCT.name} - ${img.label}">`
+      : `<span class="placeholder">SUBE TU FOTO<br>${img.label}</span>`
+    }
+  `;
+  gallery.appendChild(slot);
+});
+
+let selectedSize = null;
+const totalLeft = PRODUCT.sizes.reduce((sum, s) => sum + s.stock, 0);
+const pct = Math.round((totalLeft / PRODUCT.stockTotal) * 100);
+
+document.getElementById("sku-line").textContent = PRODUCT.sku;
+document.getElementById("price-display").textContent = `$${PRODUCT.price}.00`;
+document.getElementById("stock-fill").style.width = `${pct}%`;
+document.getElementById("stock-label").textContent =
+  totalLeft > 0 ? `${totalLeft} de ${PRODUCT.stockTotal} disponibles` : "agotado";
+
+const sizeSelect = document.getElementById("size-select");
+PRODUCT.sizes.forEach(s => {
+  const btn = document.createElement("button");
+  const soldOut = s.stock <= 0;
+  btn.className = `size-opt${soldOut ? " sold" : ""}`;
+  btn.textContent = s.label;
+  btn.disabled = soldOut;
+  btn.onclick = () => {
+    selectedSize = s.label;
+    document.querySelectorAll(".size-opt").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    updateBuyLink();
+  };
+  sizeSelect.appendChild(btn);
+});
+
+function updateBuyLink(){
+  const buyBtn = document.getElementById("buy-btn");
+  const sizeText = selectedSize ? ` talla ${selectedSize}` : "";
+  const message = encodeURIComponent(
+    `Hola! Quiero comprar: ${PRODUCT.name}${sizeText} (${PRODUCT.sku}) - $${PRODUCT.price}`
+  );
+  buyBtn.href = `https://wa.me/${593979165551}?text=${message}`;
+  buyBtn.textContent = selectedSize ? "Comprar por WhatsApp" : "Elige tu talla primero";
+}
+updateBuyLink();
+
+document.getElementById("footer-wa").href =
+  `https://wa.me/${593979165551}?text=${encodeURIComponent("Hola! Tengo una consulta sobre el drop actual.")}`;
+
+document.getElementById("hero-buy-btn").href =
+  `https://wa.me/${593979165551}?text=${encodeURIComponent(`Hola! Quiero mas informacion sobre el ${PRODUCT.name} (${PRODUCT.sku})`)}`;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaiKled — Drops</title>
+<meta name="description" content="SaiKled — ropa de edición limitada. Compra por WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cobalto:#0047AB;
+    --carbon:#0A0A0A;
+    --carbon-soft:#161616;
+    --concreto:#B6B4AC;
+    --concreto-alt:#C7C5BD;
+    --hielo:#A9C6E8;
+    --line:rgba(10,10,10,0.15);
+    --line-light:rgba(182,180,172,0.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--concreto);
+    color:var(--carbon);
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:17px;
+    line-height:1.5;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
+  h1,h2,h3,.logo{font-family:'Archivo Black',sans-serif;text-transform:uppercase;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;top:0;z-index:100;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 24px;background:var(--carbon);color:var(--concreto);
+    border-bottom:1px solid rgba(182,180,172,0.12);
+  }
+  .logo{font-size:19px;letter-spacing:0.5px;color:var(--concreto);text-decoration:none;}
+  nav.main-nav{display:flex;gap:26px;align-items:center;}
+  .main-nav a{
+    font-size:14px;letter-spacing:0.5px;text-transform:uppercase;
+    text-decoration:none;color:var(--concreto);opacity:0.75;transition:opacity .15s;
+  }
+  .main-nav a:hover{opacity:1;}
+  .nav-cta{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--cobalto);color:var(--concreto);
+    padding:9px 18px;border-radius:999px;
+    font-size:13px;letter-spacing:0.4px;text-transform:uppercase;text-decoration:none;
+    opacity:1 !important;transition:opacity .15s;
+  }
+  .nav-cta:hover{opacity:0.85 !important;}
+
+  /* ---------- HERO (a sangre completa) ---------- */
+  .hero{
+    position:relative;min-height:88vh;display:flex;align-items:flex-end;
+    background:var(--carbon);overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;object-position:75% 85%;opacity:0.85;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,10,10,0.15) 0%,rgba(10,10,10,0.55) 60%,rgba(10,10,10,0.92) 100%);
+  }
+  .hero-content{position:relative;z-index:2;padding:0 24px 56px;width:100%;color:var(--concreto);}
+  .tag{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;letter-spacing:0.6px;text-transform:uppercase;
+    color:var(--hielo);border:1px solid var(--hielo);
+    padding:6px 14px;margin-bottom:20px;border-radius:999px;
+  }
+  .tag .dot{width:6px;height:6px;border-radius:50%;background:var(--hielo);animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  h1.hero-title{
+    font-size:clamp(40px,8vw,84px);
+    line-height:0.98;margin-bottom:16px;color:var(--concreto);
+    max-width:820px;
+  }
+  .hero p{color:var(--concreto);opacity:0.85;font-size:17px;max-width:460px;margin-bottom:26px;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:15px 28px;border-radius:999px;
+    font-family:'Barlow Condensed';font-weight:600;font-size:16px;letter-spacing:0.3px;
+    text-decoration:none;border:none;cursor:pointer;transition:opacity .15s, transform .15s;
+  }
+  .btn:hover{opacity:0.85;transform:translateY(-1px);}
+  .btn-primary{background:var(--concreto);color:var(--carbon);}
+  .btn-outline{background:transparent;color:var(--concreto);border:1px solid var(--concreto);}
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{
+    background:var(--cobalto);color:var(--concreto);
+    overflow:hidden;white-space:nowrap;padding:12px 0;
+    border-bottom:1px solid rgba(0,0,0,0.15);
+  }
+  .marquee-track{
+    display:inline-block;padding-left:100%;
+    animation:scroll-left 22s linear infinite;
+    font-size:14px;letter-spacing:0.6px;text-transform:uppercase;font-weight:600;
+  }
+  .marquee-track span{margin:0 22px;}
+  @keyframes scroll-left{from{transform:translateX(0);}to{transform:translateX(-100%);}}
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section{padding:64px 0;}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;gap:16px;flex-wrap:wrap;}
+  .section-head h2{font-size:clamp(26px,4vw,38px);}
+  .section-head p{font-size:15px;opacity:0.65;max-width:360px;}
+
+  /* ---------- PRODUCT GRID (overview) ---------- */
+  .product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
+  .product-card{
+    display:block;text-decoration:none;color:var(--carbon);
+    background:var(--concreto-alt);position:relative;overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .product-card .card-media{
+    aspect-ratio:4/5;overflow:hidden;position:relative;background:#cfcdc5;
+  }
+  .product-card .card-media img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;}
+  .product-card:hover .card-media img{transform:scale(1.05);}
+  .card-media .placeholder{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    text-align:center;font-size:14px;letter-spacing:0.5px;text-transform:uppercase;
+    color:var(--carbon);opacity:0.45;padding:20px;
+  }
+  .badge{
+    position:absolute;top:14px;left:14px;z-index:2;
+    font-size:11px;letter-spacing:0.6px;text-transform:uppercase;font-weight:600;
+    padding:5px 11px;border-radius:999px;
+  }
+  .badge-live{background:var(--cobalto);color:var(--concreto);}
+  .badge-soon{background:var(--carbon);color:var(--concreto);}
+  .card-info{padding:16px 18px 20px;}
+  .card-info .name{font-family:'Barlow Condensed';font-weight:600;font-size:18px;margin-bottom:4px;}
+  .card-info .meta{font-size:14px;opacity:0.6;margin-bottom:8px;}
+  .card-info .price{font-family:'Archivo Black';color:var(--cobalto);font-size:17px;}
+  .card-info .price.muted{color:var(--carbon);opacity:0.55;font-family:'Barlow Condensed';font-weight:600;font-size:15px;text-transform:uppercase;}
+  @media(max-width:700px){ .product-grid{grid-template-columns:1fr;} }
+
+  /* ---------- PRODUCT DETAIL ---------- */
+  .product-detail{border-top:1px solid var(--line);padding:64px 0;scroll-margin-top:76px;}
+  .product-detail:nth-of-type(even){background:rgba(10,10,10,0.03);}
+  .detail-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:start;}
+  @media(max-width:800px){ .detail-grid{grid-template-columns:1fr;} }
+
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+  .img-slot{aspect-ratio:4/5;background:var(--concreto-alt);position:relative;overflow:hidden;}
+  .img-slot img{width:100%;height:100%;object-fit:cover;display:block;}
+  .img-slot .placeholder{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:var(--carbon);opacity:0.5;text-align:center;padding:10px;
+  }
+  .img-slot .tag-label{
+    position:absolute;top:10px;left:10px;font-size:11px;letter-spacing:0.3px;
+    background:var(--concreto);border:1px solid var(--line);padding:3px 9px;color:var(--carbon);
+    text-transform:uppercase;
+  }
+  @media(max-width:500px){ .gallery{grid-template-columns:1fr;} }
+
+  .buy-info .status-badge{
+    display:inline-block;font-size:12px;letter-spacing:0.5px;text-transform:uppercase;font-weight:600;
+    padding:5px 12px;border-radius:999px;margin-bottom:14px;
+  }
+  .buy-info .sku-line{font-size:14px;opacity:0.55;margin-bottom:6px;letter-spacing:0.3px;}
+  .buy-info h3{font-size:26px;margin-bottom:8px;}
+  .buy-info .tagline{font-size:16px;opacity:0.7;margin-bottom:16px;}
+  .price{font-family:'Archivo Black';color:var(--cobalto);font-size:26px;margin-bottom:18px;}
+  .stock-bar{height:3px;background:var(--line);margin-bottom:8px;overflow:hidden;}
+  .stock-bar div{height:100%;background:var(--cobalto);}
+  .stock-label{font-size:14px;opacity:0.6;margin-bottom:22px;}
+  .preventa-note{
+    font-size:14px;opacity:0.75;margin-bottom:22px;padding:12px 14px;
+    background:rgba(0,71,171,0.08);border-left:3px solid var(--cobalto);
+  }
+  .size-select{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+  .size-opt{
+    font-family:'Barlow Condensed';font-weight:500;font-size:15px;
+    border:1px solid var(--carbon);padding:8px 18px;cursor:pointer;
+    background:transparent;color:var(--carbon);
+  }
+  .size-opt.active{border-color:var(--cobalto);background:var(--cobalto);color:var(--concreto);}
+  .size-opt.sold{color:var(--carbon);opacity:0.35;text-decoration:line-through;cursor:not-allowed;}
+  .buy{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;padding:15px;border-radius:999px;
+    background:var(--cobalto);color:var(--concreto);
+    font-family:'Barlow Condensed';font-weight:600;font-size:16px;letter-spacing:0.3px;
+    text-decoration:none;border:none;cursor:pointer;transition:opacity .15s;
+  }
+  .buy:hover{opacity:0.85;}
+  .buy.sold{background:transparent;color:var(--carbon);opacity:0.4;border:1px solid var(--carbon);cursor:not-allowed;pointer-events:none;}
+  .fine-print{font-size:14px;opacity:0.6;margin-top:14px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--carbon);color:var(--concreto);
+    padding:36px 24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;
+    font-size:14px;letter-spacing:0.3px;
+  }
+  footer a{color:var(--hielo);text-decoration:none;}
+
+  @media(max-width:600px){
+    nav.main-nav a:not(.nav-cta){display:none;}
+    .section{padding:48px 0;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#top">SaiKled</a>
+  <nav class="main-nav">
+    <a href="#drops">Drops</a>
+    <a href="#top" id="footer-wa-nav" class="nav-cta">WhatsApp</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <img class="hero-bg" src="img/modelo.jpeg" alt="SaiKled">
+  <div class="hero-content wrap" style="padding-left:0;padding-right:0;">
+    <div class="tag"><span class="dot"></span>DROPS ACTIVOS</div>
+    <h1 class="hero-title">Suena con<br>calma. Crece<br>con fuerza.</h1>
+    <p>Piezas de edición limitada. Cuando se acaban, se acaban — sin reposición hasta el próximo drop.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#drops">Ver drops</a>
+      <a class="btn btn-outline" id="hero-buy-btn" target="_blank">Escríbenos</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>EDICIÓN LIMITADA</span><span>·</span><span>PAGO POR WHATSAPP</span><span>·</span>
+    <span>RIOBAMBA, ECUADOR</span><span>·</span><span>SAIKLED</span><span>·</span>
+    <span>EDICIÓN LIMITADA</span><span>·</span><span>PAGO POR WHATSAPP</span><span>·</span>
+    <span>RIOBAMBA, ECUADOR</span><span>·</span><span>SAIKLED</span><span>·</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="section" id="drops">
+    <div class="section-head">
+      <h2>Drops</h2>
+      <p>Dos piezas, dos momentos: una disponible ahora, otra en preventa.</p>
+    </div>
+    <div class="product-grid" id="product-grid"></div>
+  </section>
+</div>
+
+<div id="product-details"></div>
+
+<footer>
+  <div>© SaiKled — Riobamba, Ecuador</div>
+  <div><a href="https://instagram.com/saikled21" target="_blank">Instagram</a> · <a href="#" id="footer-wa">WhatsApp</a></div>
+</footer>
+
+<script>
+/* =======================================================
+   EDITA SOLO ESTA PARTE PARA CADA DROP NUEVO
+   ======================================================= */
+
+const WHATSAPP_NUMBER = "593979165551"; // tu número con código de país, sin + ni espacios
+
+const PRODUCTS = [
+  {
+    id: "pantalon-baggy-gris",
+    sku: "DROP-04",
+    name: "Pantalón baggy gris",
+    tagline: "Edición única de 24 piezas.",
+    description: "Pago por transferencia o depósito. Te confirmamos disponibilidad y coordinamos entrega por WhatsApp.",
+    status: "activo", // "activo" | "preventa"
+    price: 30,
+    stockTotal: 24,
+    sizes: [
+      { label: "S",  stock: 6 },
+      { label: "M",  stock: 8 },
+      { label: "L",  stock: 7 },
+      { label: "XL", stock: 3 }
+    ],
+    images: [
+      { src: "img/cuerpo.jpeg", label: "modelo" },
+      { src: "img/larga.jpeg", label: "detalle tela" },
+      { src: "img/modelo.jpeg", label: "detalle costura" }
+    ]
+  },
+  {
+    id: "hoodie-drop-05",
+    sku: "DROP-05",
+    name: "Hoodie SaiKled",
+    tagline: "Próximo drop en camino.",
+    description: "Reserva tu talla ahora. Coordinamos pago y entrega por WhatsApp cuando el drop se libere.",
+    status: "preventa",
+    price: 35,
+    sizes: [
+      { label: "S" },
+      { label: "M" },
+      { label: "L" },
+      { label: "XL" }
+    ],
+    images: [
+      { src: "", label: "modelo" },
+      { src: "", label: "detalle tela" },
+      { src: "", label: "detalle costura" }
+    ]
+  }
+];
+
+/* ======================================================= */
+
+const selectedSizes = {};
+
+function waLink(message){
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
+function renderGrid(){
+  const grid = document.getElementById("product-grid");
+  PRODUCTS.forEach(p => {
+    const isLive = p.status === "activo";
+    const cover = p.images.find(i => i.src) || p.images[0];
+    const card = document.createElement("a");
+    card.className = "product-card";
+    card.href = `#detail-${p.id}`;
+    card.innerHTML = `
+      <div class="card-media">
+        <span class="badge ${isLive ? "badge-live" : "badge-soon"}">${isLive ? "Disponible" : "Próximamente"}</span>
+        ${cover && cover.src
+          ? `<img src="${cover.src}" alt="${p.name}">`
+          : `<span class="placeholder">Foto próximamente</span>`
+        }
+      </div>
+      <div class="card-info">
+        <div class="name">${p.name}</div>
+        <div class="meta">${p.sku}</div>
+        <div class="price ${isLive ? "" : "muted"}">${isLive ? `$${p.price}.00` : "Preventa"}</div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderDetail(p){
+  const container = document.getElementById("product-details");
+  const isLive = p.status === "activo";
+  const section = document.createElement("section");
+  section.className = "product-detail";
+  section.id = `detail-${p.id}`;
+
+  const totalLeft = isLive ? p.sizes.reduce((sum, s) => sum + s.stock, 0) : null;
+  const pct = isLive ? Math.round((totalLeft / p.stockTotal) * 100) : 0;
+
+  section.innerHTML = `
+    <div class="wrap">
+      <div class="detail-grid">
+        <div class="gallery">
+          ${p.images.map(img => `
+            <div class="img-slot">
+              <span class="tag-label">${img.label}</span>
+              ${img.src
+                ? `<img src="${img.src}" alt="${p.name} - ${img.label}">`
+                : `<span class="placeholder">FOTO<br>PRÓXIMAMENTE</span>`
+              }
+            </div>
+          `).join("")}
+        </div>
+        <div class="buy-info">
+          <span class="status-badge" style="background:${isLive ? "var(--cobalto)" : "var(--carbon)"};color:var(--concreto);">
+            ${isLive ? "Venta activa" : "Preventa"}
+          </span>
+          <div class="sku-line">${p.sku}</div>
+          <h3>${p.name}</h3>
+          <p class="tagline">${p.tagline}</p>
+          <div class="price">${isLive ? `$${p.price}.00` : `$${p.price}.00 (reserva)`}</div>
+
+          ${isLive ? `
+            <div class="stock-bar"><div style="width:${pct}%"></div></div>
+            <div class="stock-label">${totalLeft > 0 ? `${totalLeft} de ${p.stockTotal} disponibles` : "Agotado"}</div>
+          ` : `
+            <div class="preventa-note">Aún no hay stock físico — al reservar aseguras tu talla para cuando el drop se libere.</div>
+          `}
+
+          <div class="size-select" id="size-select-${p.id}"></div>
+
+          <a class="buy" id="buy-btn-${p.id}" target="_blank">${isLive ? "Comprar por WhatsApp" : "Reservar por WhatsApp"}</a>
+          <p class="fine-print">${p.description}</p>
+        </div>
+      </div>
+    </div>
+  `;
+  container.appendChild(section);
+
+  const sizeSelect = section.querySelector(`#size-select-${p.id}`);
+  p.sizes.forEach(s => {
+    const soldOut = isLive && s.stock <= 0;
+    const btn = document.createElement("button");
+    btn.className = `size-opt${soldOut ? " sold" : ""}`;
+    btn.textContent = s.label;
+    btn.disabled = soldOut;
+    btn.onclick = () => {
+      selectedSizes[p.id] = s.label;
+      sizeSelect.querySelectorAll(".size-opt").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      updateBuyLink(p);
+    };
+    sizeSelect.appendChild(btn);
+  });
+
+  updateBuyLink(p);
+}
+
+function updateBuyLink(p){
+  const buyBtn = document.getElementById(`buy-btn-${p.id}`);
+  const isLive = p.status === "activo";
+  const size = selectedSizes[p.id];
+  const sizeText = size ? ` talla ${size}` : "";
+  const verb = isLive ? "comprar" : "reservar";
+
+  if (!size){
+    buyBtn.textContent = "Elige tu talla primero";
+  } else {
+    buyBtn.textContent = isLive ? "Comprar por WhatsApp" : "Reservar por WhatsApp";
+  }
+
+  buyBtn.href = waLink(`Hola! Quiero ${verb}: ${p.name}${sizeText} (${p.sku}) - $${p.price}`);
+}
+
+renderGrid();
+PRODUCTS.forEach(renderDetail);
+
+document.getElementById("footer-wa").href =
+  waLink("Hola! Tengo una consulta sobre los drops de SaiKled.");
+document.getElementById("footer-wa-nav").href =
+  waLink("Hola! Tengo una consulta sobre los drops de SaiKled.");
+document.getElementById("hero-buy-btn").href =
+  waLink("Hola! Quiero mas informacion sobre los drops de SaiKled.");
+</script>
+
+</body>
+</html>
