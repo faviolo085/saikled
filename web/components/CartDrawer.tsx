@@ -12,6 +12,8 @@ export function CartDrawer() {
   const { lines, isOpen, closeCart, removeLine, totalPrice } = useCart();
   const [showQr, setShowQr] = useState(false);
 
+  const anyHidePrice = lines.some((l) => getProduct(l.productId)?.hidePrice);
+
   const checkoutMessage = () => {
     const items = lines
       .map((l) => {
@@ -19,7 +21,9 @@ export function CartDrawer() {
         return `- ${p?.name ?? l.productId} talla ${l.size} x${l.qty}`;
       })
       .join("\n");
-    return `Hola! Quiero comprar:\n${items}\n\nTotal: $${totalPrice}`;
+    return anyHidePrice
+      ? `Hola! Quiero comprar:\n${items}`
+      : `Hola! Quiero comprar:\n${items}\n\nTotal: $${totalPrice}`;
   };
 
   return (
@@ -71,7 +75,11 @@ export function CartDrawer() {
                     <div className="flex-1">
                       <p className="text-sm text-concrete-light">{product.name}</p>
                       <p className="text-xs text-concrete/60">Talla {l.size} · x{l.qty}</p>
-                      <p className="text-sm text-cobalt font-semibold mt-1">${product.price * l.qty}</p>
+                      {product.hidePrice ? (
+                        <p className="text-xs text-concrete/50 mt-1">Precio a coordinar por WhatsApp</p>
+                      ) : (
+                        <p className="text-sm text-cobalt font-semibold mt-1">${product.price * l.qty}</p>
+                      )}
                     </div>
                     <button
                       onClick={() => removeLine(l.productId, l.size)}
@@ -89,7 +97,9 @@ export function CartDrawer() {
               <div className="border-t border-white/10 px-6 py-6 space-y-3">
                 <div className="flex justify-between text-sm text-concrete-light">
                   <span>Total</span>
-                  <span className="font-display text-cobalt">${totalPrice}</span>
+                  <span className="font-display text-cobalt">
+                    {anyHidePrice ? "A coordinar" : `$${totalPrice}`}
+                  </span>
                 </div>
                 <a
                   href={waLink(checkoutMessage())}
@@ -114,8 +124,11 @@ export function CartDrawer() {
                           <Image src={DEUNA_QR} alt="QR de pago De Una - SaiKled" fill className="object-contain" />
                         </div>
                         <p className="text-[11px] text-concrete/60 mb-3">
-                          Escanea desde tu app De Una, paga <strong>${totalPrice}</strong> y envía el
-                          comprobante por WhatsApp para confirmar tu pedido.
+                          {anyHidePrice ? (
+                            <>Escanea desde tu app De Una, paga el monto que te confirmemos por WhatsApp y envía el comprobante para confirmar tu pedido.</>
+                          ) : (
+                            <>Escanea desde tu app De Una, paga <strong>${totalPrice}</strong> y envía el comprobante por WhatsApp para confirmar tu pedido.</>
+                          )}
                         </p>
                         <a
                           href={waLink(
@@ -124,7 +137,7 @@ export function CartDrawer() {
                                 const p = getProduct(l.productId);
                                 return `- ${p?.name ?? l.productId} talla ${l.size} x${l.qty}`;
                               })
-                              .join("\n")}\n\nTotal: $${totalPrice}. Adjunto el comprobante.`
+                              .join("\n")}${anyHidePrice ? "" : `\n\nTotal: $${totalPrice}`}. Adjunto el comprobante.`
                           )}
                           target="_blank"
                           rel="noreferrer"

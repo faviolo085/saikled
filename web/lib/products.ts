@@ -13,13 +13,14 @@ export const PRODUCTS: Product[] = [
       "Pago por transferencia, depósito o QR. Confirmamos disponibilidad y coordinamos entrega por WhatsApp.",
     status: "activo",
     price: 30,
+    hidePrice: true,
     stockTotal: 24,
     fit: "Corte baggy relajado, tiro alto y caída recta. Ajuste con cordón interno en la cintura.",
-    fabric: "Algodón grueso 320 g/m², tacto mate y buena caída sin perder estructura.",
+    fabric: "Algodón grueso, tacto mate y buena caída sin perder estructura.",
     finish: "Costuras reforzadas doble pespunte, bolsillos de refuerzo y etiqueta tejida SaiKled.",
     sizes: [
-      { label: "S", stock: 6 },
-      { label: "M", stock: 8 },
+      { label: "S", stock: 0 },
+      { label: "M", stock: 4 },
       { label: "L", stock: 0 },
       { label: "XL", stock: 0 }
     ],

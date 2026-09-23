@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Product } from "@/lib/types";
 import { useCart } from "./CartProvider";
+import { waLink } from "@/lib/whatsapp";
 
 const SIZE_GUIDE: Record<string, { cintura: string; cadera: string; largo: string }> = {
   S: { cintura: "70-76 cm", cadera: "92-98 cm", largo: "100 cm" },
@@ -40,9 +41,13 @@ export function BuyPanel({ product }: { product: Product }) {
       </h1>
       <p className="text-concrete/70 mb-5">{product.tagline}</p>
 
-      <p className="font-display text-2xl text-cobalt mb-5">
-        ${product.price}.00{!isLive && " (reserva)"}
-      </p>
+      {product.hidePrice ? (
+        <p className="text-sm text-concrete/70 mb-5">Precio a coordinar por WhatsApp.</p>
+      ) : (
+        <p className="font-display text-2xl text-cobalt mb-5">
+          ${product.price}.00{!isLive && " (reserva)"}
+        </p>
+      )}
 
       {isLive ? (
         <div className="mb-6">
@@ -91,13 +96,37 @@ export function BuyPanel({ product }: { product: Product }) {
         })}
       </div>
 
-      <button
-        disabled={!size}
-        onClick={() => size && addLine(product.id, size)}
-        className="w-full py-4 rounded-full bg-concrete-light text-carbon font-semibold tracking-wide uppercase text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-85 transition-opacity"
-      >
-        {size ? (isLive ? "Añadir al carrito" : "Reservar talla") : "Elige tu talla"}
-      </button>
+      {size ? (
+        <div className="space-y-2.5">
+          <a
+            href={waLink(
+              `Hola! Quiero comprar: ${product.name} talla ${size} (${product.sku})${
+                product.hidePrice ? "" : ` - $${product.price}`
+              }`
+            )}
+            target="_blank"
+            rel="noreferrer"
+            className="block w-full text-center py-4 rounded-full bg-cobalt text-white font-semibold tracking-wide uppercase text-sm hover:opacity-85 transition-opacity"
+          >
+            {isLive ? "Comprar ahora" : "Reservar ahora"}
+          </a>
+          {isLive && (
+            <button
+              onClick={() => addLine(product.id, size)}
+              className="w-full py-3.5 rounded-full border border-white/25 text-concrete-light font-semibold tracking-wide uppercase text-sm hover:border-concrete-light transition-colors"
+            >
+              Añadir al carrito
+            </button>
+          )}
+        </div>
+      ) : (
+        <button
+          disabled
+          className="w-full py-4 rounded-full bg-concrete-light text-carbon font-semibold tracking-wide uppercase text-sm opacity-40 cursor-not-allowed"
+        >
+          Elige tu talla
+        </button>
+      )}
 
       <p className="text-xs text-concrete/50 mt-4">{product.description}</p>
 

@@ -1,13 +1,35 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { waLink } from "@/lib/whatsapp";
+import { getProduct } from "@/lib/products";
 
 export function WaitlistTeaser() {
+  const hoodie = getProduct("hoodie-drop-05");
+  const teaserPhoto = hoodie?.images[0]?.front;
+
   return (
     <section id="proximo-drop" className="relative border-t border-white/10 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-carbon-soft to-carbon" />
       <div className="relative mx-auto max-w-6xl px-6 py-24 sm:py-32 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative w-40 sm:w-52 aspect-4/5 mx-auto mb-8 overflow-hidden bg-white/5 border border-white/10"
+        >
+          {teaserPhoto ? (
+            <Image src={teaserPhoto} alt="Adelanto del Hoodie SaiKled" fill className="object-cover" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-[11px] uppercase tracking-widest text-concrete/40 text-center px-4">
+              Foto
+              <br />
+              próximamente
+            </div>
+          )}
+        </motion.div>
+
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}

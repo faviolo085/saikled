@@ -19,6 +19,7 @@ export interface Product {
   description: string;
   status: ProductStatus;
   price: number;
+  hidePrice?: boolean;
   stockTotal: number | null;
   sizes: SizeOption[];
   images: ProductImage[];
