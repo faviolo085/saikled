@@ -1,23 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { waLink } from "@/lib/whatsapp";
 
 export function WaitlistTeaser() {
-  const [contact, setContact] = useState("");
-  const [sent, setSent] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!contact.trim()) return;
-    const link = waLink(
-      `Hola! Quiero unirme a la lista de espera del Hoodie SaiKled (DROP-05). Mi contacto: ${contact}`
-    );
-    window.open(link, "_blank");
-    setSent(true);
-  };
-
   return (
     <section id="proximo-drop" className="relative border-t border-white/10 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-carbon-soft to-carbon" />
@@ -44,29 +30,27 @@ export function WaitlistTeaser() {
         </motion.h2>
 
         <p className="text-concrete/60 max-w-md mx-auto mb-10">
-          Acceso anticipado antes del lanzamiento oficial. Deja tu contacto y te avisamos primero.
+          Acceso anticipado antes del lanzamiento oficial. Escríbenos y te avisamos primero.
         </p>
 
-        {sent ? (
-          <p className="text-cobalt font-semibold">¡Listo! Te escribimos por WhatsApp para confirmar tu lugar.</p>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="text"
-              required
-              value={contact}
-              onChange={(e) => setContact(e.target.value)}
-              placeholder="Email o WhatsApp"
-              className="flex-1 bg-transparent border border-white/25 focus:border-cobalt outline-none px-4 py-3 text-sm text-concrete-light placeholder:text-concrete/40"
-            />
-            <button
-              type="submit"
-              className="bg-cobalt hover:opacity-85 transition-opacity text-white px-6 py-3 text-sm font-semibold uppercase tracking-wide"
-            >
-              Unirme
-            </button>
-          </form>
-        )}
+        <div className="flex flex-col items-center gap-4">
+          <a
+            href={waLink("Hola! Quiero que me avisen cuando salga el Hoodie SaiKled (DROP-05).")}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-block bg-cobalt hover:opacity-85 transition-opacity text-white px-8 py-3.5 rounded-full text-sm font-semibold uppercase tracking-wide"
+          >
+            Avísame por WhatsApp
+          </a>
+          <a
+            href="https://instagram.com/saikled21"
+            target="_blank"
+            rel="noreferrer"
+            className="text-xs text-concrete/50 hover:text-concrete-light underline underline-offset-4 transition-colors"
+          >
+            o síguenos en Instagram para no perderte el drop
+          </a>
+        </div>
       </div>
     </section>
   );
