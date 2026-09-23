@@ -21,7 +21,7 @@ export const PRODUCTS: Product[] = [
     sizes: [
       { label: "S", stock: 0 },
       { label: "M", stock: 4 },
-      { label: "L", stock: 0 },
+      { label: "L", stock: 3 },
       { label: "XL", stock: 0 }
     ],
     images: [

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { waLink } from "@/lib/whatsapp";
 import { getProduct } from "@/lib/products";
@@ -10,26 +9,26 @@ export function WaitlistTeaser() {
   const teaserPhoto = hoodie?.images[0]?.front;
 
   return (
-    <section id="proximo-drop" className="relative border-t border-white/10 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-carbon-soft to-carbon" />
-      <div className="relative mx-auto max-w-6xl px-6 py-24 sm:py-32 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative w-40 sm:w-52 aspect-4/5 mx-auto mb-8 overflow-hidden bg-white/5 border border-white/10"
-        >
-          {teaserPhoto ? (
-            <Image src={teaserPhoto} alt="Adelanto del Hoodie SaiKled" fill className="object-cover" />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-[11px] uppercase tracking-widest text-concrete/40 text-center px-4">
-              Foto
-              <br />
-              próximamente
-            </div>
-          )}
-        </motion.div>
+    <section
+      id="proximo-drop"
+      className="relative flex items-center min-h-[clamp(480px,70vh,760px)] overflow-hidden bg-carbon border-t border-white/10"
+    >
+      {teaserPhoto ? (
+        <img
+          src={teaserPhoto}
+          alt="Adelanto del Hoodie SaiKled"
+          className="absolute inset-0 w-full h-full object-cover opacity-85"
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-[13px] uppercase tracking-[0.3em] text-concrete/15 font-display">
+            Foto próximamente
+          </span>
+        </div>
+      )}
+      <div className="absolute inset-0 bg-gradient-to-b from-carbon/40 via-carbon/70 to-carbon/95" />
 
+      <div className="relative z-10 w-full px-6 py-20 max-w-6xl mx-auto text-center">
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
