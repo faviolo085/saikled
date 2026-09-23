@@ -100,7 +100,7 @@ export function BuyPanel({ product }: { product: Product }) {
         <div className="space-y-2.5">
           <a
             href={waLink(
-              `Hola! Quiero comprar: ${product.name} talla ${size} (${product.sku})${
+              `Hola! Quiero ${isLive ? "comprar" : "reservar"}: ${product.name} talla ${size} (${product.sku})${
                 product.hidePrice ? "" : ` - $${product.price}`
               }`
             )}

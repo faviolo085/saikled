@@ -12,10 +12,7 @@ export function Header() {
       <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
         <nav className="hidden sm:flex gap-6 text-xs uppercase tracking-widest text-concrete/80">
           <Link href="#producto" className="hover:text-concrete-light transition-colors">
-            Pantalón
-          </Link>
-          <Link href="#proximo-drop" className="hover:text-concrete-light transition-colors">
-            Próximo drop
+            Hoodie
           </Link>
         </nav>
 

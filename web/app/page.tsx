@@ -4,12 +4,11 @@ import { BrandHero } from "@/components/BrandHero";
 import { Marquee } from "@/components/Marquee";
 import { HeroProduct } from "@/components/HeroProduct";
 import { FeatureGrid } from "@/components/FeatureGrid";
-import { WaitlistTeaser } from "@/components/WaitlistTeaser";
 import { Footer } from "@/components/Footer";
 import { PRODUCTS } from "@/lib/products";
 
 export default function Home() {
-  const pantalon = PRODUCTS[0];
+  const hoodie = PRODUCTS[0];
 
   return (
     <>
@@ -18,9 +17,8 @@ export default function Home() {
       <BrandHero />
       <Marquee />
       <main>
-        <HeroProduct product={pantalon} />
-        <FeatureGrid product={pantalon} />
-        <WaitlistTeaser />
+        <HeroProduct product={hoodie} />
+        <FeatureGrid product={hoodie} />
       </main>
       <Footer />
     </>
