@@ -57,7 +57,7 @@
 
   /* ---------- HERO (a sangre completa) ---------- */
   .hero{
-    position:relative;min-height:88vh;display:flex;align-items:flex-end;
+    position:relative;height:clamp(520px,78vh,860px);display:flex;align-items:flex-end;
     background:var(--carbon);overflow:hidden;
   }
   .hero-bg{
@@ -78,9 +78,9 @@
   .tag .dot{width:6px;height:6px;border-radius:50%;background:var(--hielo);animation:pulse 1.6s infinite;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
   h1.hero-title{
-    font-size:clamp(40px,8vw,84px);
-    line-height:0.98;margin-bottom:16px;color:var(--concreto);
-    max-width:820px;
+    font-size:clamp(36px,6.5vw,72px);
+    line-height:1.02;margin-bottom:16px;color:var(--concreto);
+    max-width:760px;
   }
   .hero p{color:var(--concreto);opacity:0.85;font-size:17px;max-width:460px;margin-bottom:26px;}
   .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
@@ -151,19 +151,39 @@
   .detail-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:start;}
   @media(max-width:800px){ .detail-grid{grid-template-columns:1fr;} }
 
-  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
-  .img-slot{aspect-ratio:4/5;background:var(--concreto-alt);position:relative;overflow:hidden;}
-  .img-slot img{width:100%;height:100%;object-fit:cover;display:block;}
-  .img-slot .placeholder{
+  .slider{
+    position:relative;aspect-ratio:4/5;background:var(--concreto-alt);
+    overflow:hidden;max-width:520px;
+  }
+  .slide{
+    position:absolute;inset:0;opacity:0;pointer-events:none;
+    transition:opacity .35s ease;
+  }
+  .slide.active{opacity:1;pointer-events:auto;}
+  .slide img{width:100%;height:100%;object-fit:cover;display:block;}
+  .slide .placeholder{
     position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
     font-size:13px;color:var(--carbon);opacity:0.5;text-align:center;padding:10px;
   }
-  .img-slot .tag-label{
-    position:absolute;top:10px;left:10px;font-size:11px;letter-spacing:0.3px;
+  .slide .tag-label{
+    position:absolute;top:12px;left:12px;font-size:11px;letter-spacing:0.3px;z-index:2;
     background:var(--concreto);border:1px solid var(--line);padding:3px 9px;color:var(--carbon);
     text-transform:uppercase;
   }
-  @media(max-width:500px){ .gallery{grid-template-columns:1fr;} }
+  .slider-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+    width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;
+    background:rgba(10,10,10,0.55);color:var(--concreto);
+    font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;
+    transition:background .15s;
+  }
+  .slider-arrow:hover{background:rgba(10,10,10,0.8);}
+  .slider-arrow.prev{left:12px;}
+  .slider-arrow.next{right:12px;}
+  .slider-dots{position:absolute;bottom:14px;left:0;right:0;z-index:3;display:flex;justify-content:center;gap:7px;}
+  .slider-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.45);border:none;cursor:pointer;padding:0;}
+  .slider-dot.active{background:var(--concreto);}
+  @media(max-width:800px){ .slider{max-width:none;} }
 
   .buy-info .status-badge{
     display:inline-block;font-size:12px;letter-spacing:0.5px;text-transform:uppercase;font-weight:600;
@@ -198,6 +218,23 @@
   .buy:hover{opacity:0.85;}
   .buy.sold{background:transparent;color:var(--carbon);opacity:0.4;border:1px solid var(--carbon);cursor:not-allowed;pointer-events:none;}
   .fine-print{font-size:14px;opacity:0.6;margin-top:14px;}
+
+  .payment-toggle{
+    display:inline-flex;align-items:center;gap:6px;margin-top:14px;
+    background:none;border:none;padding:0;cursor:pointer;
+    font-family:'Barlow Condensed';font-weight:600;font-size:15px;
+    color:var(--carbon);text-decoration:underline;text-underline-offset:3px;
+  }
+  .qr-panel{
+    display:none;margin-top:14px;padding:18px;text-align:center;
+    background:rgba(10,10,10,0.04);border:1px dashed var(--line);
+  }
+  .qr-panel.open{display:block;}
+  .qr-panel img{max-width:170px;margin:0 auto 12px;}
+  .qr-panel .placeholder{
+    font-size:13px;opacity:0.6;padding:26px 12px;border:1px dashed var(--line);margin-bottom:12px;
+  }
+  .qr-panel .qr-note{font-size:13px;opacity:0.75;margin-bottom:14px;}
 
   /* ---------- FOOTER ---------- */
   footer{
@@ -268,6 +305,7 @@
    ======================================================= */
 
 const WHATSAPP_NUMBER = "593979165551"; // tu número con código de país, sin + ni espacios
+const DEUNA_QR = "img/de-una-qr.png"; // ruta a tu imagen de QR de De Una (vacío = muestra placeholder)
 
 const PRODUCTS = [
   {
@@ -282,8 +320,8 @@ const PRODUCTS = [
     sizes: [
       { label: "S",  stock: 6 },
       { label: "M",  stock: 8 },
-      { label: "L",  stock: 7 },
-      { label: "XL", stock: 3 }
+      { label: "L",  stock: 0 },
+      { label: "XL", stock: 0 }
     ],
     images: [
       { src: "img/cuerpo.jpeg", label: "modelo" },
@@ -360,17 +398,7 @@ function renderDetail(p){
   section.innerHTML = `
     <div class="wrap">
       <div class="detail-grid">
-        <div class="gallery">
-          ${p.images.map(img => `
-            <div class="img-slot">
-              <span class="tag-label">${img.label}</span>
-              ${img.src
-                ? `<img src="${img.src}" alt="${p.name} - ${img.label}">`
-                : `<span class="placeholder">FOTO<br>PRÓXIMAMENTE</span>`
-              }
-            </div>
-          `).join("")}
-        </div>
+        <div id="gallery-${p.id}"></div>
         <div class="buy-info">
           <span class="status-badge" style="background:${isLive ? "var(--cobalto)" : "var(--carbon)"};color:var(--concreto);">
             ${isLive ? "Venta activa" : "Preventa"}
@@ -391,11 +419,23 @@ function renderDetail(p){
 
           <a class="buy" id="buy-btn-${p.id}" target="_blank">${isLive ? "Comprar por WhatsApp" : "Reservar por WhatsApp"}</a>
           <p class="fine-print">${p.description}</p>
+
+          <button type="button" class="payment-toggle" id="deuna-toggle-${p.id}">¿Prefieres pagar con De Una? Ver QR</button>
+          <div class="qr-panel" id="deuna-panel-${p.id}">
+            ${DEUNA_QR
+              ? `<img src="${DEUNA_QR}" alt="QR de pago De Una - SaiKled">`
+              : `<div class="placeholder">Sube tu QR de De Una a <code>img/de-una-qr.png</code></div>`
+            }
+            <p class="qr-note">Escanea desde tu app De Una, paga <strong>$${p.price}</strong> y envía el comprobante por WhatsApp para confirmar tu pedido.</p>
+            <a class="buy" id="deuna-confirm-${p.id}" target="_blank">Ya pagué, confirmar por WhatsApp</a>
+          </div>
         </div>
       </div>
     </div>
   `;
   container.appendChild(section);
+
+  renderGallery(p, section.querySelector(`#gallery-${p.id}`));
 
   const sizeSelect = section.querySelector(`#size-select-${p.id}`);
   p.sizes.forEach(s => {
@@ -413,7 +453,53 @@ function renderDetail(p){
     sizeSelect.appendChild(btn);
   });
 
+  const deunaToggle = section.querySelector(`#deuna-toggle-${p.id}`);
+  const deunaPanel = section.querySelector(`#deuna-panel-${p.id}`);
+  deunaToggle.onclick = () => deunaPanel.classList.toggle("open");
+
   updateBuyLink(p);
+}
+
+const galleryIndex = {};
+
+function renderGallery(p, mount){
+  const n = p.images.length;
+  mount.innerHTML = `
+    <div class="slider" id="slider-${p.id}">
+      ${p.images.map((img, i) => `
+        <div class="slide${i === 0 ? " active" : ""}">
+          <span class="tag-label">${img.label}</span>
+          ${img.src
+            ? `<img src="${img.src}" alt="${p.name} - ${img.label}">`
+            : `<span class="placeholder">FOTO<br>PRÓXIMAMENTE</span>`
+          }
+        </div>
+      `).join("")}
+      ${n > 1 ? `
+        <button class="slider-arrow prev" aria-label="Imagen anterior">‹</button>
+        <button class="slider-arrow next" aria-label="Imagen siguiente">›</button>
+        <div class="slider-dots">
+          ${p.images.map((_, i) => `<button class="slider-dot${i === 0 ? " active" : ""}" data-i="${i}" aria-label="Ver imagen ${i + 1}"></button>`).join("")}
+        </div>
+      ` : ""}
+    </div>
+  `;
+
+  galleryIndex[p.id] = 0;
+  const slider = mount.querySelector(`#slider-${p.id}`);
+  const slides = slider.querySelectorAll(".slide");
+  const dots = slider.querySelectorAll(".slider-dot");
+
+  function show(i){
+    const idx = (i + n) % n;
+    galleryIndex[p.id] = idx;
+    slides.forEach((s, j) => s.classList.toggle("active", j === idx));
+    dots.forEach((d, j) => d.classList.toggle("active", j === idx));
+  }
+
+  slider.querySelector(".prev")?.addEventListener("click", () => show(galleryIndex[p.id] - 1));
+  slider.querySelector(".next")?.addEventListener("click", () => show(galleryIndex[p.id] + 1));
+  dots.forEach(d => d.addEventListener("click", () => show(parseInt(d.dataset.i, 10))));
 }
 
 function updateBuyLink(p){
@@ -430,6 +516,9 @@ function updateBuyLink(p){
   }
 
   buyBtn.href = waLink(`Hola! Quiero ${verb}: ${p.name}${sizeText} (${p.sku}) - $${p.price}`);
+
+  const deunaBtn = document.getElementById(`deuna-confirm-${p.id}`);
+  deunaBtn.href = waLink(`Hola! Ya pagué con De Una por: ${p.name}${sizeText} (${p.sku}) - $${p.price}. Adjunto el comprobante.`);
 }
 
 renderGrid();
