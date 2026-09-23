@@ -23,8 +23,8 @@ export const PRODUCTS: Product[] = [
       { label: "XL", stock: null }
     ],
     images: [
-      { front: "", back: "", alt: "Hoodie SaiKled - vista frontal" },
-      { front: "", back: "", alt: "Hoodie SaiKled - detalle de tela" },
+      { front: "/images/hoodie-front.jpg", back: "", alt: "Hoodie SaiKled - vista frontal" },
+      { front: "/images/hoodie-model.jpg", back: "", alt: "Hoodie SaiKled - modelo" },
       { front: "", back: "", alt: "Hoodie SaiKled - detalle de costura" }
     ]
   }
