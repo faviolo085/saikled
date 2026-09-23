@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCart } from "./CartProvider";
+import { Logo } from "./Logo";
 
 export function Header() {
   const { totalItems, openCart } = useCart();
@@ -18,11 +19,8 @@ export function Header() {
           </Link>
         </nav>
 
-        <Link
-          href="#top"
-          className="font-display text-lg tracking-[0.15em] text-concrete-light uppercase sm:absolute sm:left-1/2 sm:-translate-x-1/2"
-        >
-          SaiKled
+        <Link href="#top" aria-label="SaiKled" className="sm:absolute sm:left-1/2 sm:-translate-x-1/2">
+          <Logo />
         </Link>
 
         <button

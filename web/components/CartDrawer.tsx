@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "./CartProvider";
 import { getProduct } from "@/lib/products";
@@ -9,6 +10,7 @@ import Image from "next/image";
 
 export function CartDrawer() {
   const { lines, isOpen, closeCart, removeLine, totalPrice } = useCart();
+  const [showQr, setShowQr] = useState(false);
 
   const checkoutMessage = () => {
     const items = lines
@@ -98,9 +100,41 @@ export function CartDrawer() {
                   Finalizar por WhatsApp
                 </a>
                 {DEUNA_QR && (
-                  <p className="text-center text-[11px] text-concrete/50">
-                    También puedes pagar con QR De Una y enviar el comprobante por WhatsApp.
-                  </p>
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => setShowQr((v) => !v)}
+                      className="w-full text-center text-xs underline underline-offset-4 text-concrete/60 hover:text-concrete-light"
+                    >
+                      {showQr ? "Ocultar QR de De Una" : "¿Prefieres pagar con De Una? Ver QR"}
+                    </button>
+                    {showQr && (
+                      <div className="mt-3 p-4 border border-dashed border-white/15 bg-white/5 text-center">
+                        <div className="relative w-36 h-36 mx-auto mb-3">
+                          <Image src={DEUNA_QR} alt="QR de pago De Una - SaiKled" fill className="object-contain" />
+                        </div>
+                        <p className="text-[11px] text-concrete/60 mb-3">
+                          Escanea desde tu app De Una, paga <strong>${totalPrice}</strong> y envía el
+                          comprobante por WhatsApp para confirmar tu pedido.
+                        </p>
+                        <a
+                          href={waLink(
+                            `Hola! Ya pagué con De Una por:\n${lines
+                              .map((l) => {
+                                const p = getProduct(l.productId);
+                                return `- ${p?.name ?? l.productId} talla ${l.size} x${l.qty}`;
+                              })
+                              .join("\n")}\n\nTotal: $${totalPrice}. Adjunto el comprobante.`
+                          )}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="block w-full text-center bg-transparent border border-concrete-light/40 hover:border-concrete-light transition-colors text-concrete-light py-2.5 rounded-full text-xs font-semibold tracking-wide"
+                        >
+                          Ya pagué, confirmar por WhatsApp
+                        </a>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             )}

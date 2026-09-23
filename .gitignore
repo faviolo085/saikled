@@ -1,3 +1,6 @@
 desktop.ini
 .devserver.ps1
 .claude/
+
+# Local Netlify folder
+.netlify
