@@ -25,7 +25,8 @@ export const PRODUCTS: Product[] = [
     images: [
       { front: "/images/hoodie-front.jpg", back: "", alt: "Hoodie SaiKled - vista frontal" },
       { front: "/images/hoodie-model.jpg", back: "", alt: "Hoodie SaiKled - modelo" },
-      { front: "/images/hoodie-back.jpg", back: "", alt: "Hoodie SaiKled - vista trasera" }
+      { front: "/images/hoodie-back.jpg", back: "", alt: "Hoodie SaiKled - vista trasera" },
+      { front: "/images/hoodie-model-back.jpg", back: "", alt: "Hoodie SaiKled - modelo, vista trasera" }
     ]
   }
 ];
